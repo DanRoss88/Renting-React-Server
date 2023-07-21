@@ -1,3 +1,6 @@
 node_modules/
 
 .env 
+
+src/db/user.json
+src/db/playground-2.mongodb.js
