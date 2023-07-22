@@ -5,7 +5,7 @@ const loginRouter = express.Router();
 // Example route to display the login form
 loginRouter.get('/', (req, res) => {
   // Render your login form HTML page or template here
-  res.render('login-form'); // Replace 'login-form' with your actual HTML page or template
+  res.render('/login'); // Replace 'login-form' with your actual HTML page or template
 });
 
 

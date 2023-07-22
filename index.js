@@ -40,6 +40,8 @@ async function run() {
 }
 run().catch(console.dir);
 
+
+
 ///// ** Use Middleware ** /////
 app.use(express.json());
 app.use(morgan('dev'));
@@ -47,8 +49,11 @@ app.use(authenticateToken);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
+
+
+
 /////// ** Require Router Module ** ///////
-// const mapsRouter = require('./src/routes/maps');
+const homeRouter = require('./src/routes/home');
 const registerRouter = require('./src/routes/register');
 const loginRouter = require('./src/routes/login');
 
