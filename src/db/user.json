@@ -1,7 +1,6 @@
 
 [
   {
-    "user_id": "1",
     "full_name": "John Doe",
     "rating": 5,
     "profile_pic": "profile1.jpg",
