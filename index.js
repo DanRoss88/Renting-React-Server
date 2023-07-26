@@ -37,9 +37,6 @@ app.use(
 
 
 
-/////// ** Require Router Module ** ///////
-
-
 ///// ** Use Router ** /////
 
 app.use("/", authRoute)
