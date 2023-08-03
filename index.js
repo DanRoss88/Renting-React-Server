@@ -3,14 +3,18 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
-const morgan = require('morgan');
+const morgan = require("morgan");
 const authRoute = require("./src/routes/AuthRoute");
 const bodyParser = require("body-parser");
+const socketio = require("socket.io");
+
+const server = require("http").createServer(app);
+const io = socketio(server);
+
 require("dotenv").config();
 const { PORT, MONGO_DB } = process.env;
 
 ////// ** Database ** //////
-
 mongoose
   .connect(MONGO_DB, {
     useNewUrlParser: true,
@@ -19,11 +23,9 @@ mongoose
   .then(() => console.log("MongoDB Renting is connected successfully"))
   .catch((err) => console.error(err));
 
-
-
 ///// ** Use Middleware ** /////
 app.use(express.json());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
@@ -34,20 +36,23 @@ app.use(
   })
 );
 
-
-
-
 ///// ** Use Router ** /////
+app.use("/", authRoute);
 
-app.use("/", authRoute)
 ///// ** Start Server ** /////
-
-
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Example app listening at http://localhost:${PORT}`);
 });
 
+////// ** Socket.io ** ////////
+io.on("connection", (socket) => {
+  console.log(`Socket ${socket.id} connected.`);
 
+  socket.on("sendMessage", (message) => {
+    io.emit("message", message);
+  });
 
-
-
+  socket.on("disconnect", () => {
+    console.log(`Socket ${socket.id} disconnected.`);
+  });
+});

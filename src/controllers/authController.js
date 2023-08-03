@@ -24,7 +24,7 @@
 //     if (existingUser) {
 //       return res.json({ message: "User already exists" });
 //     }
-//     const user = await User.create({ 
+//     const user = await User.create({
 //       full_name,
 //       location,
 //       renter,
@@ -81,7 +81,6 @@
 //     }
 //     };
 
-
 const User = require("../models/user");
 const { createSecretToken } = require("../util/secretToken");
 const bcrypt = require("bcrypt");
@@ -111,25 +110,45 @@ module.exports.Register = async (req, res, next) => {
 module.exports.Login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    if(!email || !password ){
-      return res.json({message:'All fields are required'})
+    if (!email || !password) {
+      return res.json({ message: "All fields are required" });
     }
     const user = await User.findOne({ email });
-    if(!user){
-      return res.json({message:'Incorrect password or email' }) 
+    if (!user) {
+      return res.json({ message: "Incorrect password or email" });
     }
-    const auth = await bcrypt.compare(password,user.password)
+    const auth = await bcrypt.compare(password, user.password);
     if (!auth) {
-      return res.json({message:'Incorrect password or email' }) 
+      return res.json({ message: "Incorrect password or email" });
     }
-     const token = createSecretToken(user._id);
-     res.cookie("token", token, {
-       withCredentials: true,
-       httpOnly: false,
-     });
-     res.status(201).json({ message: "User logged in successfully", success: true });
-     next()
+    const token = createSecretToken(user._id);
+    res.cookie("token", token, {
+      withCredentials: true,
+      httpOnly: false,
+    });
+    res
+      .status(201)
+      .json({ message: "User logged in successfully", success: true });
+    next();
   } catch (error) {
     console.error(error);
   }
-}
+};
+
+module.exports.Logout = async (req, res, next) => {
+  try {
+    res.cookie("token", "", {
+      withCredentials: true,
+      httpOnly: false,
+      expires: new Date(0),
+    });
+    res
+      .status(200)
+      .json({ message: "User logged out successfully", success: true });
+    next();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+

@@ -20,3 +20,17 @@ module.exports.mapApi = async (req, res, next) => {
     res.status(500).json({ error: "Failed to fetch Google Maps API key" });
   }
 };
+
+module.exports.messagesApi = async (req, res, next) => {
+
+  try {
+    const messages = [
+      { id: 1, text: "Hello world" },
+      { id: 2, text: "How are you?" },
+    ];
+    res.json({ messages });
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+    res.status(500).json({ error: "Failed to fetch messages" });
+  }
+}
