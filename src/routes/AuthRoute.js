@@ -15,7 +15,7 @@ router.post('/login', Login)
 router.post('/', userVerification)
 //////// *** PROFILE ROUTES *** ///////
 router.put('/edit-profile', UpdateProfile)
-router.get('/find-profile/:username', FindProfile)
+router.get('/find-profile/:id', FindProfile)
 router.post('/edit-profile', CreateProfile)
 router.delete('/profile', DeleteProfile)
 router.get('/profile', DisplayProfile)

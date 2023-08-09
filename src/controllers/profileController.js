@@ -100,8 +100,8 @@ module.exports.DeleteProfile = async (req, res, next) => {
 
 module.exports.FindProfile = async (req, res, next) => {
   try {
-    const { username } = req.params;
-    const profile = await Profile.findOne({ username });
+    const { id } = req.params;
+    const profile = await Profile.findOne({ id });
     
     if (!profile) {
       return res.status(404).json({ success: false, message: "Profile not found" });
